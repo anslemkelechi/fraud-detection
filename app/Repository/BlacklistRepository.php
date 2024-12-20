@@ -14,8 +14,17 @@ class BlacklistRepository implements BlacklistInterface
         return $blacklist;
     }
 
-    public function getAllBlacklistedIps($id)
+    public function getAllBlacklistedIps($id, $ip)
     {
-        $blacklists = BlacklistedIps::where('user_id', $id)->get();
+        $blacklists = BlacklistedIps::where('user_id', $id)
+            ->where('ip_address', $ip)
+            ->exists();
+        return $blacklists;
+    }
+
+    public function getSingleBlacklistedIp($ip)
+    {
+        $blacklists = BlacklistedIps::where('ip_address', $ip)->first();
+        return $blacklists;
     }
 }

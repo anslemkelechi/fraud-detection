@@ -9,5 +9,7 @@ interface TransactionInterface
     public function getAllTransactions($id);
     public function createTransactionIp(array $data);
 
-    public function getAllTransactionIps($id);
+    public function getAllTransactionIps($id, $ip);
+
+    public function getTransactionWithinTime($id, $start, $end);
 }

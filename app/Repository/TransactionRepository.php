@@ -27,9 +27,20 @@ class TransactionRepository implements TransactionInterface
         return $transaction;
     }
 
-    public function getAllTransactionIps($id)
+    public function getAllTransactionIps($id, $ip)
     {
-        $transactions = TransactionIps::where('user_id', $id)->get();
+        $transactions = TransactionIps::where('user_id', $id)
+            ->where('ip_address', $ip)
+            ->exists();
+        return $transactions;
+    }
+
+    public function getTransactionWithinTime($id, $start, $end)
+    {
+        $transactions =  Transactions::where('user_id', $id)
+            ->whereBetween('created_at', [$start, $end])
+            ->count();
+
         return $transactions;
     }
 }

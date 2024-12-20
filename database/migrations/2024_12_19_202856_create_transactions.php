@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained("users")->onDelete('cascade');
-            $table->decimal('amount', 8, 2)->default(0);
+            $table->decimal('amount', 17, 2)->default(0);
             $table->string('ip_address');
             $table->string('device_fingerprint');
             $table->boolean('is_new_device');

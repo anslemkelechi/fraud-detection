@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Contracts\RiskInterface;
+use App\Models\RiskWeights;
 use Illuminate\Support\Facades\Validator;
 
 class RiskWeightController extends Controller
@@ -48,7 +49,7 @@ class RiskWeightController extends Controller
     public function updateRiskWeight(Request $request)
     {
         try {
-            $riskId = $request->riskId;
+            $riskId = $request->route('riskId');
             $identifier = $request->identifier;
             $weight = $request->weight;
 
@@ -56,7 +57,7 @@ class RiskWeightController extends Controller
             $validator = Validator::make($request->all(), [
                 'identifier' => 'string',
                 'weight' => 'integer',
-                "riskId" => "integer"
+
             ]);
 
             // Check if validation fails
@@ -84,7 +85,7 @@ class RiskWeightController extends Controller
     public function getRiskWeightByIdentifier(Request $request)
     {
         try {
-            $identifier = $request->identifier;
+            $identifier = $request->route("identifier");
             //Add Validations
             $validator = Validator::make($request->all(), [
                 'identifier' => 'string',
@@ -97,6 +98,10 @@ class RiskWeightController extends Controller
 
             //Find Weight
             $riskWeight = $this->riskRepository->getWeightByIdentifier($identifier);
+
+            if (empty($riskWeight)) {
+                return $this->respondWithError('Risk weight not found', 404);
+            }
             return $this->respondWithSuccess($riskWeight, 'Risk weight returned successfully');
         } catch (\Exception $e) {
             return $this->respondWithError($e->getMessage(), 500);

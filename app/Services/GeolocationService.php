@@ -21,4 +21,20 @@ class GeolocationService
 
         return null;
     }
+
+    public function getPublicIp()
+    {
+        // Construct the API endpoint
+        $url = env("GEOLOCATION_URL", "http://ip-api.com/json");
+
+        // Make the request to the ipstack API
+        $response = Http::get($url);
+
+        if ($response->ok()) {
+            $data = $response->json();
+            return $data['query'] ?? null; //Contails Public IP
+        }
+
+        return null;
+    }
 }

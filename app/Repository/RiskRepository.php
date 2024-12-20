@@ -23,8 +23,8 @@ class RiskRepository implements RiskInterface
     public function updateWeight($id, array $data)
     {
         $riskWeight = RiskWeights::where('id', $id)->first();
-        $riskWeight->identifier = $data['identifier'] || $riskWeight->identifier;
-        $riskWeight->weight = $data['weight'] || $riskWeight->weight;
+        $riskWeight->identifier = $data['identifier'] ?? $riskWeight->identifier;
+        $riskWeight->weight = $data['weight'] ?? $riskWeight->weight;
         $riskWeight->save();
         return $riskWeight;
     }
